@@ -66,12 +66,40 @@
 </template>
 
 <script>
-import { reactive } from "@vue/reactivity";
+import { reactive, ref } from "@vue/reactivity";
 export default {
   setup() {
     const todos = reactive([]);
+    const todoText = ref("");
+
+    function addTodo() {
+      todos.unshift({
+        text: todoText.value,
+        createdAt: new Date(),
+        done: false,
+      });
+      todoText.value = "";
+    }
+    function markAsDown(index) {
+      todos[index].done = true;
+    }
+    function markAsUndone(index) {
+      todos[index].done = false;
+    }
+    function removeTodo(index) {
+      if (!confirm("Are you sure?")) {
+        return;
+      }
+      alert("removed");
+      todos.splice(index, 1);
+    }
     return {
       todos,
+      todoText,
+      addTodo,
+      markAsDown,
+      markAsUndone,
+      removeTodo,
     };
   },
 };
